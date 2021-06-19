@@ -1,5 +1,5 @@
+import 'package:bots/utils/app.colors.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ChartsService {
@@ -10,12 +10,12 @@ class ChartsService {
     List<PieChartSectionData> sections = [
       PieChartSectionData(
         radius: Get.width * 0.1,
-        color: Colors.green,
+        color: AppColors.completedTaskColor,
         value: completedTasks.toDouble(),
       ),
       PieChartSectionData(
         radius: Get.width * 0.1,
-        color: Colors.red,
+        color: AppColors.uncompletedTaskColor,
         value: notCompletedTasks.toDouble(),
       ),
     ];

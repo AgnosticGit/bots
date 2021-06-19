@@ -1,8 +1,6 @@
 import 'dart:convert';
-import 'package:bots/services/device.service.dart';
 import 'package:bots/services/internet.service.dart';
 import 'package:bots/utils/enums.dart';
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 class RestApiService<S, E> extends InternetService {

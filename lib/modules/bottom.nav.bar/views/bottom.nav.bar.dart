@@ -27,12 +27,12 @@ class BottomNavBar extends StatelessWidget {
           inactiveColorPrimary: CupertinoColors.systemGrey,
         ),
       ],
+      backgroundColor: Colors.white,
       confineInSafeArea: true,
       handleAndroidBackButtonPress: true,
       resizeToAvoidBottomInset: true,
       hideNavigationBarWhenKeyboardShows: true,
       decoration: NavBarDecoration(
-        borderRadius: BorderRadius.circular(10.0),
         colorBehindNavBar: Colors.white,
       ),
       popAllScreensOnTapOfSelectedTab: true,
