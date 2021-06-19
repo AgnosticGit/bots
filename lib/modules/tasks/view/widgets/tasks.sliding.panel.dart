@@ -1,3 +1,5 @@
+import 'package:bots/modules/tasks/controllers/tasks.controller.dart';
+import 'package:bots/stores/tasks.store.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -15,6 +17,8 @@ class TasksSlidingPanel extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return SlidingUpPanel(
+      onPanelOpened:TasksStore.to.update,
+      onPanelClosed: TasksController().onClosePanel,
       margin: EdgeInsets.symmetric(horizontal: Get.width * 0.1),
       collapsed: collapsed,
       borderRadius: BorderRadius.only(

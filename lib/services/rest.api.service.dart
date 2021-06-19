@@ -43,7 +43,6 @@ class RestApiService<S, E> extends InternetService {
     try {
       _loadingStarted();
       http.Response response = await _httpRequest();
-      print(response.body);
       _loadingFinished();
 
       if (response.statusCode != 200) {

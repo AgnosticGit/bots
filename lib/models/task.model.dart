@@ -1,22 +1,25 @@
-import 'package:json_annotation/json_annotation.dart';
+import 'package:hive/hive.dart';
 
 part 'task.model.g.dart';
 
-@JsonSerializable()
-class TaskModel {
+@HiveType(typeId: 0)
+class TaskModel extends HiveObject {
   TaskModel({
-    required this.userId,
-    required this.id,
-    this.title,
-    this.completed,
+    this.id,
+    this.title = '',
+    this.completed = false,
+    this.time,
   });
 
-  int userId;
-  int id;
+  @HiveField(0)
+  int? id = 0;
+
+  @HiveField(1)
   String? title;
+
+  @HiveField(2)
   bool? completed;
 
-  factory TaskModel.fromJson(Map<String, dynamic> json) =>
-      _$TaskModelFromJson(json);
-  Map<String, dynamic> toJson() => _$TaskModelToJson(this);
+  @HiveField(3)
+  DateTime? time = DateTime.now();
 }

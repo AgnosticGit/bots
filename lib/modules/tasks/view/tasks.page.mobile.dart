@@ -1,8 +1,9 @@
 import 'dart:math';
+import 'package:bots/modules/tasks/controllers/tasks.controller.dart';
+import 'package:bots/modules/tasks/view/widgets/tasks.add.task.dart';
 import 'package:bots/modules/tasks/view/widgets/tasks.pie.chart.dart';
 import 'package:bots/modules/tasks/view/widgets/tasks.piechart.indicator.dart';
 import 'package:bots/modules/tasks/view/widgets/tasks.sliding.panel.dart';
-import 'package:bots/services/math.service.dart';
 import 'package:bots/stores/tasks.store.dart';
 import 'package:bots/utils/app.colors.dart';
 import 'package:flutter/material.dart';
@@ -99,7 +100,7 @@ class TasksPageMobile extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Expanded(child: const SizedBox()),
+              Expanded(child: _buildPanelBackButton()),
               Expanded(
                 child: Transform.rotate(
                   angle: pi * 1.5,
@@ -110,34 +111,81 @@ class TasksPageMobile extends StatelessWidget {
                   ),
                 ),
               ),
-              Expanded(
-                child: Align(
-                  child: GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      margin: const EdgeInsets.only(top: 10.0),
-                      padding: const EdgeInsets.all(5.0),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: Text(
-                        'Add Task',
-                        style: TextStyle(
-                          color: AppColors.slidingPanelColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18.0,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              Expanded(child: _buildPanelButton()),
             ],
           ),
         ),
-        Expanded(child: TasksList()),
+        Expanded(
+          child: PageView(
+            onPageChanged: TasksStore.to.setCurrentPage,
+            controller: TasksStore.to.pageController,
+            children: [
+              TasksList(),
+              TasksAddTask(),
+            ],
+          ),
+        ),
       ],
+    );
+  }
+
+  Widget _buildPanelBackButton() {
+    final currentPage = TasksStore.to.currentPage;
+
+    if (currentPage == 0) return const SizedBox();
+    return GestureDetector(
+      child: Container(
+        padding: const EdgeInsets.only(top: 15.0, left: 10.0),
+        alignment: Alignment.centerLeft,
+        child: Icon(
+          Icons.arrow_back_rounded,
+          color: Colors.white,
+          size: 35.0,
+        ),
+      ),
+      onTap: TasksController().onPressBackSlidingPanel,
+    );
+  }
+
+  Widget _buildPanelButton() {
+    final currentPage = TasksStore.to.currentPage;
+
+    if (currentPage == 0) {
+      return Align(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 10.0),
+          child: ElevatedButton(
+            onPressed: TasksController().onPressAddTask,
+            style: ElevatedButton.styleFrom(primary: Colors.white),
+            child: Text(
+              'Add Task',
+              style: TextStyle(
+                color: AppColors.slidingPanelColor,
+                fontWeight: FontWeight.bold,
+                fontSize: 18.0,
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+
+    return Align(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 10.0),
+        child: ElevatedButton(
+          onPressed: TasksController().onPressSave,
+          style: ElevatedButton.styleFrom(primary: Colors.white),
+          child: Text(
+            'Save',
+            style: TextStyle(
+              color: AppColors.slidingPanelColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 18.0,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
