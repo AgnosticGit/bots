@@ -5,7 +5,7 @@ import 'package:bots/utils/api.url.dart';
 import 'package:bots/utils/enums.dart';
 
 class ApiRequestsService {
-  static Future<void> getTodosList() async {
+  static Future<void> getTaskList() async {
     await RestApiService<List<TaskModel>, dynamic>(
       url: ApiUrl.todos,
       requestType: RequestType.get,
@@ -15,6 +15,21 @@ class ApiRequestsService {
             .toList();
       },
       successToStore: (todos) => TasksStore.to.setTodos(todos),
+    ).request();
+  }
+
+  static Future<void> addTask() async {
+    await RestApiService(
+      url: ApiUrl.addTask,
+      requestType: RequestType.post,
+      body: {
+        "userId": 1,
+        "title": "Привет Привет Привет",
+        "completed": true
+      },
+      successFromJson: (responseBody) {
+        print(responseBody);
+      },
     ).request();
   }
 }

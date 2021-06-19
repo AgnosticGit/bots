@@ -7,6 +7,8 @@ class RestApiService<S, E> extends InternetService {
   RestApiService({
     required this.url,
     required this.requestType,
+    this.body,
+    this.headers,
     this.successFromJson,
     this.successToStore,
     this.errorsFromJson,
@@ -17,6 +19,8 @@ class RestApiService<S, E> extends InternetService {
 
   String url;
   RequestType requestType;
+  Map<String, dynamic>? body;
+  Map<String, String>? headers;
 
   S Function(dynamic responseBody)? successFromJson;
   E Function(dynamic errors)? errorsFromJson;
@@ -39,6 +43,7 @@ class RestApiService<S, E> extends InternetService {
     try {
       _loadingStarted();
       http.Response response = await _httpRequest();
+      print(response.body);
       _loadingFinished();
 
       if (response.statusCode != 200) {
@@ -73,7 +78,11 @@ class RestApiService<S, E> extends InternetService {
       return await http.get(Uri.parse(url));
     }
     if (requestType == RequestType.post) {
-      return await http.post(Uri.parse(url));
+      return await http.post(
+        Uri.parse(url),
+        headers: headers,
+        body: jsonEncode(body),
+      );
     }
     if (requestType == RequestType.put) {
       return await http.put(Uri.parse(url));
