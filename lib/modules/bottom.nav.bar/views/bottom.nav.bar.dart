@@ -1,4 +1,4 @@
-import 'package:bots/modules/example/views/example.page.dart';
+import 'package:bots/modules/example/views/days.page.dart';
 import 'package:bots/modules/tasks/view/tasks.page.selector.dart';
 import 'package:bots/utils/app.image.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,7 +11,7 @@ class BottomNavBar extends StatelessWidget {
       context,
       screens: [
         TasksPageSelector(),
-        ExamplePage(),
+        DaysPage(),
       ],
       items: [
         PersistentBottomNavBarItem(
@@ -22,7 +22,7 @@ class BottomNavBar extends StatelessWidget {
         ),
         PersistentBottomNavBarItem(
           icon: Icon(CupertinoIcons.settings),
-          title: ("Settings"),
+          title: ("Days"),
           activeColorPrimary: CupertinoColors.activeBlue,
           inactiveColorPrimary: CupertinoColors.systemGrey,
         ),

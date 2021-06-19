@@ -44,13 +44,13 @@ class TasksPieChart extends StatelessWidget {
     List<PieChartSectionData> sections = [
       PieChartSectionData(
         title: "$completedTitle% ($completedTasks)",
-        radius: Get.width * 0.3,
+        radius: Get.width * 0.25,
         color: AppColors.completedTaskColor,
         value: completedTasks.toDouble(),
       ),
       PieChartSectionData(
         title: "$notCompletedTitle% ($notCompletedTasks)",
-        radius: Get.width * 0.3,
+        radius: Get.width * 0.25,
         color: AppColors.notCompletedTaskColor,
         value: notCompletedTasks.toDouble(),
       ),

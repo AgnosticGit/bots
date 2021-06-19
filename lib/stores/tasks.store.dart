@@ -7,6 +7,8 @@ class TasksStore extends Store {
   static TasksStore get to => Get.put(TasksStore());
 
   PageController pageController = PageController(initialPage: 0);
+  final newTaskTextController = TextEditingController();
+
   int currentPage = 0;
 
   List<TaskModel> tasks = [];
@@ -24,6 +26,11 @@ class TasksStore extends Store {
     update();
   }
 
+  void setNewTaskTextControllerEmptyText(){
+    newTaskTextController.clear();
+    update();
+  }
+
   void setNewTaskToTasks(){
     tasks.insert(0, newTask);
     update();
@@ -34,20 +41,31 @@ class TasksStore extends Store {
     update();
   }
 
+  void setSelectedTasksCompleted(bool value){
+    selectedTasks.forEach((selTask) { 
+      tasks.firstWhere((task) => task.id == selTask.id).completed = value;
+    });
+    setSelectedTasksDefault();
+    update();
+  }
+
   void removeTaskFromSelectedTasks(TaskModel task){
     selectedTasks.removeWhere((element) => element.id == task.id);
     update();
   }
 
   void removeFromTasksSelectedTasks(){
-    for(int i = 0; i < tasks.length; i++){
-      for(int j = 0; j < selectedTasks.length; j++){
-        if(tasks[i].id == selectedTasks[j].id){
-          tasks.removeAt(i);
-          break;
-        }
-      }
-    }
+    selectedTasks.forEach((selTask) { 
+      final index = tasks.indexWhere((task) => task.id == selTask.id);
+      tasks.removeAt(index);
+    });
+
+    setSelectedTasksDefault();
+    update();
+  }
+
+  void setSelectedTasksDefault(){
+    selectedTasks = [];
     update();
   }
   

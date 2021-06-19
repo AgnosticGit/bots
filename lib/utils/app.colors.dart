@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static Color notCompletedTaskColor = Colors.red;
-  static Color completedTaskColor = Colors.green.shade600;
+  static Color notCompletedTaskColor = Color(0xff232d37);
+  static Color completedTaskColor = Color(0xFF00c2d7);
   static Color slidingPanelColor = Color(0xFF00c2d7);
   static Color mainAppColor = Color(0xFF00c2d7);
 }

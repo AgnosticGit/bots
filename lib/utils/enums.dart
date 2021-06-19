@@ -15,3 +15,9 @@ enum DeviceType {
   tablet,
   desktop,
 }
+
+enum SlidingPanelMenu{
+  remove,
+  completed,
+  notCompleted
+}

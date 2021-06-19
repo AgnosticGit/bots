@@ -1,11 +1,14 @@
 import 'dart:math';
 import 'package:bots/modules/tasks/controllers/tasks.controller.dart';
 import 'package:bots/modules/tasks/view/widgets/tasks.add.task.dart';
+import 'package:bots/modules/tasks/view/widgets/tasks.line.chart.dart';
 import 'package:bots/modules/tasks/view/widgets/tasks.pie.chart.dart';
 import 'package:bots/modules/tasks/view/widgets/tasks.piechart.indicator.dart';
 import 'package:bots/modules/tasks/view/widgets/tasks.sliding.panel.dart';
 import 'package:bots/stores/tasks.store.dart';
 import 'package:bots/utils/app.colors.dart';
+import 'package:bots/utils/enums.dart';
+import 'package:bots/widgets/circle.button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'widgets/tasks.list.dart';
@@ -15,7 +18,6 @@ class TasksPageMobile extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black.withOpacity(0.05),
       body: TasksSlidingPanel(
         collapsed: Container(
           decoration: BoxDecoration(
@@ -26,8 +28,8 @@ class TasksPageMobile extends StatelessWidget {
             ),
           ),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(height: 10.0),
               Transform.rotate(
                 angle: pi / 2,
                 child: Icon(
@@ -48,7 +50,15 @@ class TasksPageMobile extends StatelessWidget {
           ),
         ),
         panel: _buildOpenedPanel(),
-        child: _buildPieChart(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TasksLineChart(),
+            const SizedBox(height: 30.0),
+            _buildPieChart(),
+            SizedBox(height:  slidingPanelHeight),
+          ],
+        ),
       ),
     );
   }
@@ -58,26 +68,51 @@ class TasksPageMobile extends StatelessWidget {
 
     if (tasks.length == 0) return Align(child: Text('No Data'));
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 15.0),
+    return Container(
+      padding: const EdgeInsets.all(15.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(18.0),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.4),
+            spreadRadius: 2,
+            blurRadius: 4,
+            offset: Offset(0, 3),
+          ),
+        ],
+      ),
       child: Stack(
         children: [
-          TasksPiechartIndicator(
-            title: Text('Completed'),
-            color: AppColors.completedTaskColor,
-          ),
-          Positioned(
-            top: 30.0,
-            child: TasksPiechartIndicator(
-              title: Text('Not Completed'),
-              color: AppColors.notCompletedTaskColor,
-            ),
-          ),
           Align(
             alignment: Alignment.topCenter,
             child: Container(
-              height: Get.height - slidingPanelHeight,
+              height: Get.height * 0.3,
               child: TasksPieChart(),
+            ),
+          ),
+          Positioned(
+            right: 0.0,
+            bottom: 0.0,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TasksPiechartIndicator(
+                  title: Text(
+                    'Completed',
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                  color: AppColors.completedTaskColor,
+                ),
+                const SizedBox(height: 10.0),
+                TasksPiechartIndicator(
+                  title: Text(
+                    'Not Completed',
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                  color: AppColors.notCompletedTaskColor,
+                ),
+              ],
             ),
           ),
         ],
@@ -90,7 +125,7 @@ class TasksPageMobile extends StatelessWidget {
       children: [
         Container(
           height: 80.0,
-          padding: const EdgeInsets.only(bottom: 10.0),
+          padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 10.0),
           decoration: BoxDecoration(
             color: AppColors.slidingPanelColor,
             borderRadius: BorderRadius.only(
@@ -100,18 +135,18 @@ class TasksPageMobile extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Expanded(child: _buildPanelBackButton()),
+              Expanded(child: _buildPanelLeftButton()),
               Expanded(
                 child: Transform.rotate(
                   angle: pi * 1.5,
                   child: Icon(
                     Icons.arrow_back_ios,
-                    size: 30.0,
+                    size: 35.0,
                     color: Colors.white,
                   ),
                 ),
               ),
-              Expanded(child: _buildPanelButton()),
+              Expanded(child: _buildPanelRightButton()),
             ],
           ),
         ),
@@ -129,40 +164,64 @@ class TasksPageMobile extends StatelessWidget {
     );
   }
 
-  Widget _buildPanelBackButton() {
-    final currentPage = TasksStore.to.currentPage;
-
-    if (currentPage == 0) return const SizedBox();
-    return GestureDetector(
-      child: Container(
-        padding: const EdgeInsets.only(top: 15.0, left: 10.0),
-        alignment: Alignment.centerLeft,
-        child: Icon(
-          Icons.arrow_back_rounded,
-          color: Colors.white,
-          size: 35.0,
-        ),
-      ),
-      onTap: TasksController().onPressBackSlidingPanel,
-    );
-  }
-
-  Widget _buildPanelButton() {
+  Widget _buildPanelLeftButton() {
     final currentPage = TasksStore.to.currentPage;
 
     if (currentPage == 0) {
       return Align(
+        alignment: Alignment.centerLeft,
         child: Padding(
           padding: const EdgeInsets.only(top: 10.0),
-          child: ElevatedButton(
-            onPressed: TasksController().onPressAddTask,
-            style: ElevatedButton.styleFrom(primary: Colors.white),
-            child: Text(
-              'Add Task',
-              style: TextStyle(
+          child: PopupMenuButton<SlidingPanelMenu>(
+            onSelected: TasksController().onSelectSlidingMenuItem,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(15)),
+            ),
+            itemBuilder: (BuildContext context) {
+              return <PopupMenuEntry<SlidingPanelMenu>>[
+                PopupMenuItem(
+                  value: SlidingPanelMenu.completed,
+                  child: Row(
+                    children: [
+                      Icon(Icons.check),
+                      const SizedBox(width: 10.0),
+                      Text('Completed'),
+                    ],
+                  ),
+                ),
+                PopupMenuDivider(
+                  height: 2,
+                ),
+                PopupMenuItem(
+                  value: SlidingPanelMenu.notCompleted,
+                  child: Row(
+                    children: [
+                      Icon(Icons.close),
+                      const SizedBox(width: 10.0),
+                      Text('Uncompleted'),
+                    ],
+                  ),
+                ),
+                PopupMenuDivider(
+                  height: 2,
+                ),
+                PopupMenuItem(
+                  value: SlidingPanelMenu.remove,
+                  child: Row(
+                    children: [
+                      Icon(Icons.delete),
+                      const SizedBox(width: 10.0),
+                      Text('Remove'),
+                    ],
+                  ),
+                ),
+              ];
+            },
+            child: CircleButton(
+              child: Icon(
+                Icons.menu,
+                size: 30.0,
                 color: AppColors.slidingPanelColor,
-                fontWeight: FontWeight.bold,
-                fontSize: 18.0,
               ),
             ),
           ),
@@ -171,18 +230,51 @@ class TasksPageMobile extends StatelessWidget {
     }
 
     return Align(
+      alignment: Alignment.centerLeft,
       child: Padding(
         padding: const EdgeInsets.only(top: 10.0),
-        child: ElevatedButton(
-          onPressed: TasksController().onPressSave,
-          style: ElevatedButton.styleFrom(primary: Colors.white),
-          child: Text(
-            'Save',
-            style: TextStyle(
+        child: CircleButton(
+          onTap: TasksController().onPressBackSlidingPanel,
+          child: Icon(
+            Icons.arrow_back_rounded,
+            color: AppColors.slidingPanelColor,
+            size: 30.0,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPanelRightButton() {
+    final currentPage = TasksStore.to.currentPage;
+
+    if (currentPage == 0) {
+      return Align(
+        alignment: Alignment.centerRight,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 10.0),
+          child: CircleButton(
+            onTap: TasksController().onPressAddTask,
+            child: Icon(
+              Icons.add,
+              size: 30.0,
               color: AppColors.slidingPanelColor,
-              fontWeight: FontWeight.bold,
-              fontSize: 18.0,
             ),
+          ),
+        ),
+      );
+    }
+
+    return Align(
+      alignment: Alignment.centerRight,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 10.0),
+        child: CircleButton(
+          onTap: TasksController().onPressSave,
+          child: Icon(
+            Icons.check,
+            size: 30.0,
+            color: AppColors.slidingPanelColor,
           ),
         ),
       ),

@@ -12,12 +12,20 @@ class HiveService {
     tasksBox.add(task);
   }
 
+  static Future rewriteTasks(List<TaskModel> tasks) async {
+    final tasksBox = await Hive.openBox('tasks');
+    await tasksBox.clear();
+    tasks.forEach((task) {
+      HiveService.addTask(task);
+    });
+  }
+
   static Future getIsFirstAppEnter() async {
     final firstEnterBox = await Hive.openBox('firstenter');
     return firstEnterBox.get('firstenter');
   }
 
-    static Future setIsFirstAppEnter(bool value) async {
+  static Future setIsFirstAppEnter(bool value) async {
     final firstEnterBox = await Hive.openBox('firstenter');
     return firstEnterBox.put('firstenter', value);
   }

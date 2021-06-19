@@ -13,14 +13,21 @@ class TasksTask extends StatelessWidget {
     return Container(
       height: 50.0,
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _buildTaskState(),
-          const SizedBox(width: 20.0),
           Flexible(
-            child: Text(
-              task.title ?? '',
-              overflow: TextOverflow.ellipsis,
-              maxLines: 2,
+            child: Row(
+              children: [
+                _buildTaskState(),
+                const SizedBox(width: 20.0),
+                Flexible(
+                  child: Text(
+                    task.title ?? '',
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                  ),
+                ),
+              ],
             ),
           ),
           Checkbox(

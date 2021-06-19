@@ -1,78 +1,22 @@
+import 'dart:math';
+
 import 'package:bots/models/task.model.dart';
 
 class DataGenService {
   static List<TaskModel> generateTasks() {
-    return [
-      TaskModel(
-        id: 0,
-        completed: false,
-        title:
-            'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-        time: DateTime(2021, 1, 1),
-      ),
-      TaskModel(
-        id: 1,
-        completed: true,
-        title:
-            'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-        time: DateTime(2021, 1, 2),
-      ),
-      TaskModel(
-        id: 2,
-        completed: true,
-        title:
-            'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-        time: DateTime(2021, 1, 1),
-      ),
-      TaskModel(
-        id: 3,
-        completed: true,
-        title:
-            'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-        time: DateTime(2021, 1, 2),
-      ),
-      TaskModel(
-        id: 4,
-        completed: true,
-        title:
-            'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-        time: DateTime(2021, 1, 1),
-      ),
-      TaskModel(
-        id: 5,
-        completed: true,
-        title:
-            'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-        time: DateTime(2021, 1, 2),
-      ),
-      TaskModel(
-        id: 6,
-        completed: true,
-        title:
-            'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-        time: DateTime(2021, 1, 1),
-      ),
-      TaskModel(
-        id: 7,
-        completed: false,
-        title:
-            'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-        time: DateTime(2021, 1, 2),
-      ),
-      TaskModel(
-        id: 8,
-        completed: false,
-        title:
-            'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-        time: DateTime(2021, 1, 2),
-      ),
-      TaskModel(
-        id: 9,
-        completed: false,
-        title:
-            'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-        time: DateTime(2021, 1, 1),
-      ),
-    ];
+    final list = <TaskModel>[];
+    for (int i = 0; i < 100; i++) {
+      final completed = Random().nextInt(2) > 0;
+      final randMonth = Random().nextInt(12);
+      final randDay = Random().nextInt(28);
+
+      list.add(TaskModel(
+        id: i,
+        completed: completed,
+        title: "Task $i",
+        time: DateTime(2021, randMonth == 0 ? 1 : randMonth, randDay),
+      ));
+    }
+    return list;
   }
 }

@@ -20,9 +20,9 @@ class TasksAddTask extends StatelessWidget {
           ),
           const SizedBox(height: 20.0),
           Input(
-            initialValue: TasksStore.to.newTask.title,
+            controller: TasksStore.to.newTaskTextController,
             hintText: 'Task text',
-            onChanged: (val)=> TasksController().onInputNewTask(val),
+            onChanged: (val) => TasksController().onInputNewTask(val),
           ),
         ],
       ),
