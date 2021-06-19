@@ -12,6 +12,7 @@ class TasksPageSelector extends StatelessWidget {
       init: TasksStore(),
       initState: (_) => TasksController().onReady(),
       builder: (_) {
+        return TasksPageMobile();
         return LayoutSelector(
           mobileLayout: TasksPageMobile(),
           tabletLayout: TasksPageTablet(),

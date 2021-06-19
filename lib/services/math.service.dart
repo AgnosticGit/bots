@@ -14,4 +14,8 @@ class MathService {
       return false;
     }).length;
   }
+
+  static double percentOf(int count, int unit) {
+    return unit / count * 100;
+  }
 }

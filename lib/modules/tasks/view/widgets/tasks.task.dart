@@ -33,7 +33,7 @@ class TasksTask extends StatelessWidget {
       decoration: BoxDecoration(
         color: task.completed!
             ? AppColors.completedTaskColor
-            : AppColors.uncompletedTaskColor,
+            : AppColors.notCompletedTaskColor,
         borderRadius: BorderRadius.circular(100.0),
       ),
     );
