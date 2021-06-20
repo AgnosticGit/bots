@@ -1,3 +1,6 @@
+import 'package:bots/models/task.model.dart';
+import 'package:bots/stores/tasks.store.dart';
+import 'package:bots/utils/app.colors.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
@@ -11,123 +14,150 @@ class _DaysBarChartState extends State<DaysBarChart> {
   final Color leftBarColor = const Color(0xff53fdd7);
   final Color rightBarColor = const Color(0xffff5182);
 
-
-
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1,
-      child: Card(
-        elevation: 0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-        color: const Color(0xff2c4260),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: BarChart(
-                    BarChartData(
-                      maxY: 20,
-                      barTouchData: BarTouchData(
-                        touchTooltipData: BarTouchTooltipData(
-                          tooltipBgColor: Colors.grey,
-                          getTooltipItem: (_a, _b, _c, _d) => null,
-                        ),
-                      ),
-                      titlesData: FlTitlesData(
-                        show: true,
-                        bottomTitles: SideTitles(
-                          showTitles: true,
-                          getTextStyles: (value) => const TextStyle(
-                            color: Color(0xff7589a2),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
-                          margin: 20,
-                          getTitles: (double value) {
-                            switch (value.toInt()) {
-                              case 1:
-                                return 'Mn';
-                              case 2:
-                                return 'Te';
-                              case 3:
-                                return 'Wd';
-                              case 4:
-                                return 'Tu';
-                              case 5:
-                                return 'Fr';
-                              case 6:
-                                return 'St';
-                              case 7:
-                                return 'Sn';
-                              default:
-                                return '';
-                            }
-                          },
-                        ),
-                        leftTitles: SideTitles(
-                          showTitles: true,
-                          getTextStyles: (value) => const TextStyle(
-                            color: Color(0xff7589a2),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
-                          margin: 32,
-                          reservedSize: 14,
-                          getTitles: (value) {
-                            if (value == 0) {
-                              return '1K';
-                            } else if (value == 10) {
-                              return '5K';
-                            } else if (value == 19) {
-                              return '10K';
-                            } else {
-                              return '';
-                            }
-                          },
-                        ),
-                      ),
-                      borderData: FlBorderData(show: false),
-                      barGroups: _getBarGroups(),
-                    ),
-                  ),
-                ),
-              ),
-            ],
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(18.0),
+        color: AppColors.mainAppDarkColor,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.4),
+            spreadRadius: 2,
+            blurRadius: 4,
+            offset: Offset(0, 3),
           ),
+        ],
+      ),
+      child: BarChart(
+        BarChartData(
+          gridData: FlGridData(
+            show: true,
+            drawVerticalLine: true,
+            getDrawingHorizontalLine: (value) {
+              return FlLine(
+                color: const Color(0xff37434d),
+                strokeWidth: 1,
+              );
+            },
+          ),
+          barTouchData: BarTouchData(
+            touchTooltipData: BarTouchTooltipData(
+              tooltipBgColor: Colors.grey,
+              getTooltipItem: (_a, _b, _c, _d) => null,
+            ),
+          ),
+          titlesData: FlTitlesData(
+            show: true,
+            bottomTitles: SideTitles(
+              showTitles: true,
+              getTextStyles: (value) => const TextStyle(
+                color: Color(0xff7589a2),
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
+              margin: 20,
+              getTitles: (double value) {
+                switch (value.toInt()) {
+                  case 1:
+                    return 'Mn';
+                  case 2:
+                    return 'Te';
+                  case 3:
+                    return 'Wd';
+                  case 4:
+                    return 'Tu';
+                  case 5:
+                    return 'Fr';
+                  case 6:
+                    return 'St';
+                  case 7:
+                    return 'Sn';
+                  default:
+                    return '';
+                }
+              },
+            ),
+            leftTitles: SideTitles(
+              showTitles: true,
+              getTextStyles: (value) => const TextStyle(
+                color: Color(0xff7589a2),
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
+              margin: 32,
+              reservedSize: 14,
+              getTitles: (value) {
+                return value.toStringAsFixed(0);
+              },
+            ),
+          ),
+          borderData: FlBorderData(show: false),
+          barGroups: _getBarGroups(),
         ),
       ),
     );
   }
 
   List<BarChartGroupData>? _getBarGroups() {
-    final barGroup1 = makeGroupData(1, 5, 12);
+    final selectedDates = TasksStore.to.selectedDates;
 
-    return [
-      barGroup1,
+    if (selectedDates == null ||
+        selectedDates.value.startDate == null ||
+        selectedDates.value.endDate == null) {
+      return [];
+    }
+
+    final period = [
+      selectedDates.value.startDate,
+      selectedDates.value.endDate,
     ];
+    final tasks = TasksStore.to.tasks;
+    final filteredTasks = <TaskModel>[];
+
+    tasks.forEach((task) {
+      final taskTimestamp = task.time!.millisecondsSinceEpoch;
+      final minPeriodTimestamp = period[0].millisecondsSinceEpoch;
+      final maxPeriodTimestamp = period[1].millisecondsSinceEpoch;
+    
+      if (taskTimestamp >= minPeriodTimestamp &&
+          taskTimestamp <= maxPeriodTimestamp) {
+        filteredTasks.add(task);
+      }
+    });
+
+    final Map<int, List<TaskModel>> filteredByDaysTasks = {};
+
+    filteredTasks.forEach((task) {
+      if (filteredByDaysTasks[task.time!.weekday] == null) {
+        filteredByDaysTasks[task.time!.weekday] = <TaskModel>[];
+      }
+      if (task.completed!) {
+        filteredByDaysTasks[task.time!.weekday]?.add(task);
+      }
+    });
+
+    final dataItems = <BarChartGroupData>[];
+
+    for (final weekday in filteredByDaysTasks.entries) {
+      final completedTasks = filteredByDaysTasks[weekday.key]!.length;
+      final item = makeGroupData(weekday.key, completedTasks.toDouble());
+      dataItems.add(item);
+    }
+
+    return dataItems;
   }
 
-  BarChartGroupData makeGroupData(int x, double y1, double y2) {
+  BarChartGroupData makeGroupData(int x, double y) {
     return BarChartGroupData(
       barsSpace: 4,
       x: x,
       barRods: [
         BarChartRodData(
-          y: y1,
+          y: y,
           colors: [leftBarColor],
-          width: 10,
-        ),
-        BarChartRodData(
-          y: y2,
-          colors: [rightBarColor],
-          width: 10,
+          width: 15,
         ),
       ],
     );

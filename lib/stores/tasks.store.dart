@@ -2,6 +2,7 @@ import 'package:bots/models/task.model.dart';
 import 'package:bots/stores/store.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class TasksStore extends Store {
   static TasksStore get to => Get.put(TasksStore());
@@ -15,47 +16,64 @@ class TasksStore extends Store {
   TaskModel newTask = TaskModel();
 
   List<TaskModel> selectedTasks = [];
+  DateRangePickerSelectionChangedArgs? selectedDates =
+      DateRangePickerSelectionChangedArgs(
+    PickerDateRange(
+      DateTime(2021, 1, 1),
+      DateTime.now(),
+    ),
+  );
 
   void setTasks(List<TaskModel> newTasks) {
     tasks = newTasks;
     update();
   }
 
-  void setNewTaskId(int id){
+  void setSelectedDate(DateRangePickerSelectionChangedArgs dateTime) {
+    selectedDates = dateTime;
+    update();
+  }
+
+  void setNewTaskId(int id) {
     newTask.id = id;
     update();
   }
 
-  void setNewTaskTextControllerEmptyText(){
+  void setSelectedDateDefault() {
+    selectedDates = null;
+    update();
+  }
+
+  void setNewTaskTextControllerEmptyText() {
     newTaskTextController.clear();
     update();
   }
 
-  void setNewTaskToTasks(){
+  void setNewTaskToTasks() {
     tasks.insert(0, newTask);
     update();
   }
 
-  void setTaskToSelectedTasks(TaskModel task){
+  void setTaskToSelectedTasks(TaskModel task) {
     selectedTasks.add(task);
     update();
   }
 
-  void setSelectedTasksCompleted(bool value){
-    selectedTasks.forEach((selTask) { 
+  void setSelectedTasksCompleted(bool value) {
+    selectedTasks.forEach((selTask) {
       tasks.firstWhere((task) => task.id == selTask.id).completed = value;
     });
     setSelectedTasksDefault();
     update();
   }
 
-  void removeTaskFromSelectedTasks(TaskModel task){
+  void removeTaskFromSelectedTasks(TaskModel task) {
     selectedTasks.removeWhere((element) => element.id == task.id);
     update();
   }
 
-  void removeFromTasksSelectedTasks(){
-    selectedTasks.forEach((selTask) { 
+  void removeFromTasksSelectedTasks() {
+    selectedTasks.forEach((selTask) {
       final index = tasks.indexWhere((task) => task.id == selTask.id);
       tasks.removeAt(index);
     });
@@ -64,17 +82,17 @@ class TasksStore extends Store {
     update();
   }
 
-  void setSelectedTasksDefault(){
+  void setSelectedTasksDefault() {
     selectedTasks = [];
     update();
   }
-  
-  void setNewTaskTime(DateTime time){
+
+  void setNewTaskTime(DateTime time) {
     newTask.time = time;
     update();
   }
 
-  void setNewTask(TaskModel task){
+  void setNewTask(TaskModel task) {
     newTask = task;
     update();
   }

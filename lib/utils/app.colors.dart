@@ -5,4 +5,5 @@ class AppColors {
   static Color completedTaskColor = Color(0xFF00c2d7);
   static Color slidingPanelColor = Color(0xFF00c2d7);
   static Color mainAppColor = Color(0xFF00c2d7);
+  static Color mainAppDarkColor = Color(0xff232d37);
 }

@@ -1,5 +1,5 @@
-import 'package:bots/services/math.service.dart';
 import 'package:bots/stores/tasks.store.dart';
+import 'package:bots/utils/app.colors.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,7 +14,6 @@ class TasksLineChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: Get.height * 0.3,
-     
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(18)),
         boxShadow: [
@@ -22,10 +21,10 @@ class TasksLineChart extends StatelessWidget {
             color: Colors.black.withOpacity(0.4),
             spreadRadius: 2,
             blurRadius: 4,
-            offset: Offset(0, 3), // changes position of shadow
+            offset: Offset(0, 3),
           ),
         ],
-        color: Color(0xff232d37),
+        color: AppColors.mainAppDarkColor,
       ),
       child: Padding(
         padding: const EdgeInsets.only(
@@ -87,7 +86,8 @@ class TasksLineChart extends StatelessWidget {
             fontSize: 15,
           ),
           getTitles: (value) {
-            return value.toStringAsFixed(0);
+            if (value % 2 == 0) return value.toStringAsFixed(0);
+            return '';
           },
           reservedSize: 28,
           margin: 12,

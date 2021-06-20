@@ -5,9 +5,9 @@ import 'package:bots/models/task.model.dart';
 class DataGenService {
   static List<TaskModel> generateTasks() {
     final list = <TaskModel>[];
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 200; i++) {
       final completed = Random().nextInt(2) > 0;
-      final randMonth = Random().nextInt(12);
+      final randMonth = Random().nextInt(7);
       final randDay = Random().nextInt(28);
 
       list.add(TaskModel(

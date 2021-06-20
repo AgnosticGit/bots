@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'widgets/tasks.list.dart';
 
-class TasksPageMobile extends StatelessWidget {
+class TasksPage extends StatelessWidget {
   final double slidingPanelHeight = 200.0;
 
   Widget build(BuildContext context) {
@@ -56,7 +56,7 @@ class TasksPageMobile extends StatelessWidget {
             TasksLineChart(),
             const SizedBox(height: 30.0),
             _buildPieChart(),
-            SizedBox(height:  slidingPanelHeight),
+            SizedBox(height: slidingPanelHeight),
           ],
         ),
       ),
@@ -75,9 +75,9 @@ class TasksPageMobile extends StatelessWidget {
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.4),
-            spreadRadius: 2,
-            blurRadius: 4,
+            color: Colors.black.withOpacity(0.2),
+            spreadRadius: 1,
+            blurRadius: 6,
             offset: Offset(0, 3),
           ),
         ],
@@ -85,7 +85,6 @@ class TasksPageMobile extends StatelessWidget {
       child: Stack(
         children: [
           Align(
-            alignment: Alignment.topCenter,
             child: Container(
               height: Get.height * 0.3,
               child: TasksPieChart(),
