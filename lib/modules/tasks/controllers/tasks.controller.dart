@@ -15,33 +15,37 @@ class TasksController {
   void onReady() async {
     await ifFirstEnter();
     setTasks();
+    connection();
   }
 
-  void setTasks() {
+  void setTasks() async {
+    final internet = await InternetService().lookUpInternet();
+
+    if (internet) {
+      TasksStore.to.setIsLoading(true);
+      final tasks = await HiveService.getTasks();
+      TasksStore.to.setTasks(tasks);
+      TasksStore.to.setIsLoading(false);
+    } else {
+      Timer.periodic(Duration(seconds: 1), (timer) async {
+        final look = await InternetService().lookUpInternet();
+        TasksStore.to.setIsLoading(true);
+        final tasks = await HiveService.getTasks();
+
+        if (look) {
+          TasksStore.to.setTasks(tasks);
+          TasksStore.to.setIsLoading(false);
+          timer.cancel();
+        }
+      });
+    }
+  }
+
+  void connection() {
     Connectivity()
         .onConnectivityChanged
         .listen((ConnectivityResult result) async {
-      TasksStore.to.setIsLoading(true);
-      final internet = await InternetService().lookUpInternet();
-      final tasks = await HiveService.getTasks();
-
-      if (internet) {
-        TasksStore.to.setTasks(tasks);
-        TasksStore.to.setIsLoading(false);
-      } else {
-        Timer.periodic(Duration(seconds: 1), (timer) async {
-          final look = await InternetService().lookUpInternet();
-
-          TasksStore.to.setIsReconnecting(true);
-
-          if (look) {
-            TasksStore.to.setTasks(tasks);
-            TasksStore.to.setIsLoading(false);
-            TasksStore.to.setIsReconnecting(false);
-            timer.cancel();
-          }
-        });
-      }
+      setTasks();
     });
   }
 

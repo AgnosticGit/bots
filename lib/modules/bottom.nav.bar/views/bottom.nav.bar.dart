@@ -21,7 +21,7 @@ class BottomNavBar extends StatelessWidget {
           inactiveColorPrimary: CupertinoColors.systemGrey,
         ),
         PersistentBottomNavBarItem(
-          icon: Icon(CupertinoIcons.settings),
+          icon: Icon(CupertinoIcons.calendar),
           title: ("Days"),
           activeColorPrimary: CupertinoColors.activeBlue,
           inactiveColorPrimary: CupertinoColors.systemGrey,

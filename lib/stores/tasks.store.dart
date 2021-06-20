@@ -16,7 +16,6 @@ class TasksStore extends Store {
   TaskModel newTask = TaskModel();
 
   bool isLoading = false;
-  bool isReconnecting = false;
 
   List<TaskModel> selectedTasks = [];
   DateRangePickerSelectionChangedArgs? selectedDates =
@@ -29,11 +28,6 @@ class TasksStore extends Store {
 
   void setIsLoading(bool state){
     isLoading = state;
-    update();
-  }
-
-  void setIsReconnecting(bool state){
-    isReconnecting = state;
     update();
   }
 

@@ -17,7 +17,7 @@ class TasksSlidingPanel extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return SlidingUpPanel(
-      onPanelOpened:TasksStore.to.update,
+      onPanelOpened: TasksStore.to.update,
       onPanelClosed: TasksController().onClosePanel,
       margin: EdgeInsets.symmetric(horizontal: Get.width * 0.1),
       collapsed: collapsed,
@@ -35,22 +35,9 @@ class TasksSlidingPanel extends StatelessWidget {
         ),
       ],
       color: Colors.white,
-      body: Center(
-        child: Container(
-          padding: const EdgeInsets.all(20.0),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                spreadRadius: 3,
-                blurRadius: 5,
-                offset: Offset(0, 0),
-              ),
-            ],
-          ),
-          child: child,
-        ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: child,
       ),
     );
   }

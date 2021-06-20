@@ -9,7 +9,6 @@ import 'package:bots/stores/tasks.store.dart';
 import 'package:bots/utils/app.colors.dart';
 import 'package:bots/utils/enums.dart';
 import 'package:bots/widgets/circle.button.dart';
-import 'package:bots/widgets/no.internet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'widgets/tasks.list.dart';
@@ -24,64 +23,55 @@ class TasksPage extends StatelessWidget {
         initState: (_) => TasksController().onReady(),
         builder: (_) {
           if (TasksStore.to.isLoading) {
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           }
 
-          return Stack(
-            children: [
-              TasksSlidingPanel(
-                collapsed: Container(
-                  decoration: BoxDecoration(
-                    color: AppColors.slidingPanelColor,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(16.0),
-                      topRight: Radius.circular(16.0),
-                    ),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Transform.rotate(
-                        angle: pi / 2,
-                        child: Icon(
-                          Icons.arrow_back_ios,
-                          color: Colors.white,
-                          size: 30.0,
-                        ),
-                      ),
-                      const Text(
-                        'Your Tasks',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontSize: 20.0,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                panel: _buildOpenedPanel(),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TasksLineChart(),
-                    const SizedBox(height: 30.0),
-                    Align(
-                      alignment: Get.width > 1024
-                          ? Alignment.centerLeft
-                          : Alignment.center,
-                      child: _buildPieChart(),
-                    ),
-                    SizedBox(height: slidingPanelHeight),
-                  ],
+          return TasksSlidingPanel(
+            collapsed: Container(
+              decoration: BoxDecoration(
+                color: AppColors.slidingPanelColor,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(16.0),
+                  topRight: Radius.circular(16.0),
                 ),
               ),
-              Positioned(
-                top: 60.0,
-                left: Get.width / 2 - 125,
-                child: NoInternet(),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Transform.rotate(
+                    angle: pi / 2,
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      color: Colors.white,
+                      size: 30.0,
+                    ),
+                  ),
+                  const Text(
+                    'Your Tasks',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontSize: 20.0,
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
+            panel: _buildOpenedPanel(),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(height: kToolbarHeight),
+                TasksLineChart(),
+                const SizedBox(height: 30.0),
+                Align(
+                  alignment: Get.width > 1024
+                      ? Alignment.centerLeft
+                      : Alignment.center,
+                  child: _buildPieChart(),
+                ),
+              ],
+            ),
           );
         },
       ),
@@ -111,7 +101,7 @@ class TasksPage extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-            height: Get.height * 0.3,
+            height: 300,
             child: TasksPieChart(),
           ),
           Positioned(
