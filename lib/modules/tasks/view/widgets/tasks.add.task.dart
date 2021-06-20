@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 class TasksAddTask extends StatelessWidget {
   Widget build(BuildContext context) {
-    return Padding(
+    return SingleChildScrollView(
       padding: const EdgeInsets.all(15.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

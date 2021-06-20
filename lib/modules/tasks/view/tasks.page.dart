@@ -70,6 +70,7 @@ class TasksPage extends StatelessWidget {
                       : Alignment.center,
                   child: _buildPieChart(),
                 ),
+                SizedBox(height: slidingPanelHeight),
               ],
             ),
           );

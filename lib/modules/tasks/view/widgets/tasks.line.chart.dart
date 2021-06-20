@@ -12,8 +12,10 @@ class TasksLineChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final horizontal = Get.width> Get.height;
+
     return Container(
-      height: Get.height * 0.3,
+      height: horizontal ? Get.height * 0.5: Get.height * 0.3,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(18)),
         boxShadow: [

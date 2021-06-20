@@ -89,7 +89,8 @@ class _DaysBarChartState extends State<DaysBarChart> {
               margin: 32,
               reservedSize: 14,
               getTitles: (value) {
-                return value.toStringAsFixed(0);
+                if(value % 2 == 0) return value.toStringAsFixed(0);
+                return '';
               },
             ),
           ),
