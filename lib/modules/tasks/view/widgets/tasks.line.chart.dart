@@ -121,6 +121,8 @@ class TasksLineChart extends StatelessWidget {
     final List<FlSpot> list2 = [];
     final tasks = TasksStore.to.tasks;
 
+    if (tasks.length == 0) return [FlSpot(0, 0)];
+
     tasks.forEach((task) {
       if (task.completed!) {
         list.add(FlSpot(

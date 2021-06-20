@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:bots/models/task.model.dart';
 import 'package:bots/services/data.gen.service.dart';
 import 'package:bots/services/hive_service.dart';
+import 'package:bots/services/internet.service.dart';
 import 'package:bots/stores/tasks.store.dart';
 import 'package:bots/utils/app.colors.dart';
 import 'package:bots/utils/enums.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,9 +17,32 @@ class TasksController {
     setTasks();
   }
 
-  void setTasks() async {
-    final tasks = await HiveService.getTasks();
-    TasksStore.to.setTasks(tasks);
+  void setTasks() {
+    Connectivity()
+        .onConnectivityChanged
+        .listen((ConnectivityResult result) async {
+      TasksStore.to.setIsLoading(true);
+      final internet = await InternetService().lookUpInternet();
+      final tasks = await HiveService.getTasks();
+
+      if (internet) {
+        TasksStore.to.setTasks(tasks);
+        TasksStore.to.setIsLoading(false);
+      } else {
+        Timer.periodic(Duration(seconds: 1), (timer) async {
+          final look = await InternetService().lookUpInternet();
+
+          TasksStore.to.setIsReconnecting(true);
+
+          if (look) {
+            TasksStore.to.setTasks(tasks);
+            TasksStore.to.setIsLoading(false);
+            TasksStore.to.setIsReconnecting(false);
+            timer.cancel();
+          }
+        });
+      }
+    });
   }
 
   Future ifFirstEnter() async {

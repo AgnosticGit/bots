@@ -9,6 +9,7 @@ import 'package:bots/stores/tasks.store.dart';
 import 'package:bots/utils/app.colors.dart';
 import 'package:bots/utils/enums.dart';
 import 'package:bots/widgets/circle.button.dart';
+import 'package:bots/widgets/no.internet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'widgets/tasks.list.dart';
@@ -18,47 +19,71 @@ class TasksPage extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      body: TasksSlidingPanel(
-        collapsed: Container(
-          decoration: BoxDecoration(
-            color: AppColors.slidingPanelColor,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(16.0),
-              topRight: Radius.circular(16.0),
-            ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+      body: GetBuilder<TasksStore>(
+        init: TasksStore(),
+        initState: (_) => TasksController().onReady(),
+        builder: (_) {
+          if (TasksStore.to.isLoading) {
+            return CircularProgressIndicator();
+          }
+
+          return Stack(
             children: [
-              Transform.rotate(
-                angle: pi / 2,
-                child: Icon(
-                  Icons.arrow_back_ios,
-                  color: Colors.white,
-                  size: 30.0,
+              TasksSlidingPanel(
+                collapsed: Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.slidingPanelColor,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(16.0),
+                      topRight: Radius.circular(16.0),
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Transform.rotate(
+                        angle: pi / 2,
+                        child: Icon(
+                          Icons.arrow_back_ios,
+                          color: Colors.white,
+                          size: 30.0,
+                        ),
+                      ),
+                      const Text(
+                        'Your Tasks',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontSize: 20.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                panel: _buildOpenedPanel(),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TasksLineChart(),
+                    const SizedBox(height: 30.0),
+                    Align(
+                      alignment: Get.width > 1024
+                          ? Alignment.centerLeft
+                          : Alignment.center,
+                      child: _buildPieChart(),
+                    ),
+                    SizedBox(height: slidingPanelHeight),
+                  ],
                 ),
               ),
-              const Text(
-                'Your Tasks',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  fontSize: 20.0,
-                ),
+              Positioned(
+                top: 60.0,
+                left: Get.width / 2 - 125,
+                child: NoInternet(),
               ),
             ],
-          ),
-        ),
-        panel: _buildOpenedPanel(),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TasksLineChart(),
-            const SizedBox(height: 30.0),
-            _buildPieChart(),
-            SizedBox(height: slidingPanelHeight),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
@@ -69,6 +94,7 @@ class TasksPage extends StatelessWidget {
     if (tasks.length == 0) return Align(child: Text('No Data'));
 
     return Container(
+      constraints: BoxConstraints(maxWidth: 600.0),
       padding: const EdgeInsets.all(15.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(18.0),
@@ -84,11 +110,9 @@ class TasksPage extends StatelessWidget {
       ),
       child: Stack(
         children: [
-          Align(
-            child: Container(
-              height: Get.height * 0.3,
-              child: TasksPieChart(),
-            ),
+          Container(
+            height: Get.height * 0.3,
+            child: TasksPieChart(),
           ),
           Positioned(
             right: 0.0,
@@ -99,15 +123,21 @@ class TasksPage extends StatelessWidget {
                 TasksPiechartIndicator(
                   title: Text(
                     'Completed',
-                    style: TextStyle(fontWeight: FontWeight.w600),
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 12.0,
+                    ),
                   ),
                   color: AppColors.completedTaskColor,
                 ),
-                const SizedBox(height: 10.0),
+                const SizedBox(height: 5.0),
                 TasksPiechartIndicator(
                   title: Text(
                     'Not Completed',
-                    style: TextStyle(fontWeight: FontWeight.w600),
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 12.0,
+                    ),
                   ),
                   color: AppColors.notCompletedTaskColor,
                 ),

@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 class TasksPiechartIndicator extends StatelessWidget {
   const TasksPiechartIndicator({
     required this.title,
-    this.size = 20.0,
+    this.size = 15.0,
     this.color,
   });
 

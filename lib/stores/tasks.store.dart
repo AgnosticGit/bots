@@ -15,6 +15,9 @@ class TasksStore extends Store {
   List<TaskModel> tasks = [];
   TaskModel newTask = TaskModel();
 
+  bool isLoading = false;
+  bool isReconnecting = false;
+
   List<TaskModel> selectedTasks = [];
   DateRangePickerSelectionChangedArgs? selectedDates =
       DateRangePickerSelectionChangedArgs(
@@ -23,6 +26,16 @@ class TasksStore extends Store {
       DateTime.now(),
     ),
   );
+
+  void setIsLoading(bool state){
+    isLoading = state;
+    update();
+  }
+
+  void setIsReconnecting(bool state){
+    isReconnecting = state;
+    update();
+  }
 
   void setTasks(List<TaskModel> newTasks) {
     tasks = newTasks;

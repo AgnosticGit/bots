@@ -7,7 +7,6 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
-  
   await Hive.initFlutter();
   Hive.registerAdapter(TaskModelAdapter());
   runApp(App());
@@ -16,6 +15,7 @@ void main() async {
 class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(accentColor: AppColors.mainAppColor),
       home: BottomNavBar(),
     );
