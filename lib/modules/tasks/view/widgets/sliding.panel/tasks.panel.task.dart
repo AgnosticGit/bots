@@ -2,10 +2,10 @@ import 'package:bots/modules/tasks/controllers/tasks.controller.dart';
 import 'package:bots/stores/tasks.store.dart';
 import 'package:bots/utils/app.colors.dart';
 import 'package:flutter/material.dart';
-import '../../../../models/task.model.dart';
+import '../../../../../models/task.model.dart';
 
-class TasksTask extends StatelessWidget {
-  const TasksTask({required this.task});
+class TasksPanelTask extends StatelessWidget {
+  const TasksPanelTask({required this.task});
 
   final TaskModel task;
 
@@ -33,8 +33,9 @@ class TasksTask extends StatelessWidget {
           Checkbox(
             activeColor: AppColors.mainAppColor,
             value: _getCheckBoxValue(),
-            onChanged: (value) =>
-                TasksController().onPressCheckbox(value, task),
+            onChanged: (value) {
+              TasksController().onPressCheckbox(value, task);
+            },
           )
         ],
       ),

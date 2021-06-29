@@ -15,8 +15,8 @@ class TasksPieChart extends StatelessWidget {
 
   PieChartData _buildPieChartData() {
     final tasks = TasksStore.to.tasks;
-    final completedTasks = MathService.countCompletedTasks(tasks);
-    final notCompletedTasks = MathService.countNotCompletedTasks(tasks);
+    final completedTasks = MathService.countTasks(tasks, true);
+    final notCompletedTasks = MathService.countTasks(tasks, false);
     final completedTitle = MathService.percentOf(
       tasks.length,
       completedTasks,

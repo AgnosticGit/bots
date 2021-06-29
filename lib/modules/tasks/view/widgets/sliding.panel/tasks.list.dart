@@ -1,4 +1,4 @@
-import 'package:bots/modules/tasks/view/widgets/tasks.task.dart';
+import 'package:bots/modules/tasks/view/widgets/sliding.panel/tasks.panel.task.dart';
 import 'package:bots/stores/tasks.store.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +13,7 @@ class TasksList extends StatelessWidget {
             itemCount: TasksStore.to.tasks.length,
             itemBuilder: (_, index) {
               final task = TasksStore.to.tasks[index];
-              return TasksTask(task: task);
+              return TasksPanelTask(task: task);
             },
           ),
         )

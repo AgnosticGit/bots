@@ -21,3 +21,4 @@ enum SlidingPanelMenu{
   completed,
   notCompleted
 }
+
