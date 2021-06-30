@@ -1,6 +1,7 @@
 import 'package:bots/modules/days/views/days.page.dart';
 import 'package:bots/modules/tasks/view/tasks.page.dart';
 import 'package:bots/utils/app.image.dart';
+import 'package:bots/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
@@ -16,37 +17,26 @@ class BottomNavBar extends StatelessWidget {
       items: [
         PersistentBottomNavBarItem(
           icon: AppImage.task,
-          title: ("Tasks"),
-          activeColorPrimary: CupertinoColors.activeBlue,
+          title: Constants.tasks,
           inactiveColorPrimary: CupertinoColors.systemGrey,
         ),
         PersistentBottomNavBarItem(
           icon: const Icon(CupertinoIcons.calendar),
-          title: ("Days"),
-          activeColorPrimary: CupertinoColors.activeBlue,
+          title: Constants.days,
           inactiveColorPrimary: CupertinoColors.systemGrey,
         ),
       ],
-      backgroundColor: Colors.white,
-      confineInSafeArea: true,
-      handleAndroidBackButtonPress: true,
-      resizeToAvoidBottomInset: true,
-      hideNavigationBarWhenKeyboardShows: true,
-      decoration: NavBarDecoration(
+      decoration: const NavBarDecoration(
         colorBehindNavBar: Colors.white,
       ),
-      popAllScreensOnTapOfSelectedTab: true,
-      popActionScreens: PopActionScreensType.all,
-      itemAnimationProperties: ItemAnimationProperties(
+      itemAnimationProperties: const ItemAnimationProperties(
         duration: Duration(milliseconds: 350),
         curve: Curves.ease,
       ),
-      screenTransitionAnimation: ScreenTransitionAnimation(
+      screenTransitionAnimation: const ScreenTransitionAnimation(
         animateTabTransition: true,
-        curve: Curves.ease,
         duration: Duration(milliseconds: 350),
       ),
-      navBarStyle: NavBarStyle.style1,
     );
   }
 }

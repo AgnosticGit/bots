@@ -1,5 +1,6 @@
 import 'package:bots/modules/tasks/controllers/tasks.controller.dart';
 import 'package:bots/stores/tasks.store.dart';
+import 'package:bots/utils/constants.dart';
 import 'package:bots/widgets/input.dart';
 import 'package:flutter/material.dart';
 
@@ -11,8 +12,8 @@ class TasksAddTask extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            'New Task',
+          const Text(
+            Constants.newTask,
             style: TextStyle(
               fontSize: 20.0,
               fontWeight: FontWeight.bold,
@@ -21,7 +22,7 @@ class TasksAddTask extends StatelessWidget {
           const SizedBox(height: 20.0),
           Input(
             controller: TasksStore.to.newTaskTextController,
-            hintText: 'Task text',
+            hintText: Constants.taskText,
             onChanged: (val) => TasksController().onInputNewTask(val),
           ),
         ],

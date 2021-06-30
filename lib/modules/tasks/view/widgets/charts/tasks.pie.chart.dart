@@ -6,17 +6,15 @@ import 'package:flutter/material.dart';
 
 class TasksPieChart extends StatelessWidget {
   Widget build(BuildContext context) {
-    return PieChart(
-      _buildPieChartData(),
-      swapAnimationDuration: Duration(milliseconds: 150),
-      swapAnimationCurve: Curves.linear,
-    );
+    return PieChart(_buildPieChartData());
   }
 
   PieChartData _buildPieChartData() {
     final tasks = TasksStore.to.tasks;
-    final completedTasks = MathService.countTasks(tasks, true);
-    final notCompletedTasks = MathService.countTasks(tasks, false);
+    final completedTasks = MathService.countTasks(tasks, 1);
+    final notCompletedTasks = MathService.countTasks(tasks, 0);
+
+    print(completedTasks);
     final completedTitle = MathService.percentOf(
       tasks.length,
       completedTasks,
@@ -40,7 +38,7 @@ class TasksPieChart extends StatelessWidget {
     String completedTitle,
     String notCompletedTitle,
   ) {
-    List<PieChartSectionData> sections = [
+    final sections = <PieChartSectionData>[
       PieChartSectionData(
         title: "$completedTitle% ($completedTasks)",
         radius: 120.0,

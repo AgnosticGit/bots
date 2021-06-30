@@ -4,6 +4,7 @@ import 'package:bots/modules/tasks/view/widgets/sliding.panel/tasks.add.task.dar
 import 'package:bots/modules/tasks/view/widgets/sliding.panel/tasks.list.dart';
 import 'package:bots/stores/tasks.store.dart';
 import 'package:bots/utils/app.colors.dart';
+import 'package:bots/utils/constants.dart';
 import 'package:bots/utils/enums.dart';
 import 'package:bots/widgets/circle.button.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ class TasksOpenedPanel extends StatelessWidget {
         Container(
           height: 80.0,
           padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 10.0),
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: AppColors.slidingPanelColor,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(16.0),
@@ -28,7 +29,7 @@ class TasksOpenedPanel extends StatelessWidget {
               Expanded(
                 child: Transform.rotate(
                   angle: pi * 1.5,
-                  child: Icon(
+                  child: const Icon(
                     Icons.arrow_back_ios,
                     size: 35.0,
                     color: Colors.white,
@@ -71,42 +72,38 @@ class TasksOpenedPanel extends StatelessWidget {
                 PopupMenuItem(
                   value: SlidingPanelMenu.completed,
                   child: Row(
-                    children: [
+                    children: const [
                       Icon(Icons.check),
-                      const SizedBox(width: 10.0),
-                      Text('Completed'),
+                      SizedBox(width: 10.0),
+                      Text(Constants.completed),
                     ],
                   ),
                 ),
-                PopupMenuDivider(
-                  height: 2,
-                ),
+                const PopupMenuDivider(height: 2),
                 PopupMenuItem(
                   value: SlidingPanelMenu.notCompleted,
                   child: Row(
-                    children: [
+                    children: const [
                       Icon(Icons.close),
-                      const SizedBox(width: 10.0),
-                      Text('Uncompleted'),
+                      SizedBox(width: 10.0),
+                      Text(Constants.uncompleted),
                     ],
                   ),
                 ),
-                PopupMenuDivider(
-                  height: 2,
-                ),
+                const PopupMenuDivider(height: 2),
                 PopupMenuItem(
                   value: SlidingPanelMenu.remove,
                   child: Row(
-                    children: [
+                    children: const [
                       Icon(Icons.delete),
-                      const SizedBox(width: 10.0),
-                      Text('Remove'),
+                      SizedBox(width: 10.0),
+                      Text(Constants.remove),
                     ],
                   ),
                 ),
               ];
             },
-            child: CircleButton(
+            child: const CircleButton(
               child: Icon(
                 Icons.menu,
                 size: 30.0,
@@ -124,7 +121,7 @@ class TasksOpenedPanel extends StatelessWidget {
         padding: const EdgeInsets.only(top: 10.0),
         child: CircleButton(
           onTap: TasksController().onPressBackSlidingPanel,
-          child: Icon(
+          child: const Icon(
             Icons.arrow_back_rounded,
             color: AppColors.slidingPanelColor,
             size: 30.0,
@@ -144,7 +141,7 @@ class TasksOpenedPanel extends StatelessWidget {
           padding: const EdgeInsets.only(top: 10.0),
           child: CircleButton(
             onTap: TasksController().onPressAddTask,
-            child: Icon(
+            child: const Icon(
               Icons.add,
               size: 30.0,
               color: AppColors.slidingPanelColor,
@@ -160,7 +157,7 @@ class TasksOpenedPanel extends StatelessWidget {
         padding: const EdgeInsets.only(top: 10.0),
         child: CircleButton(
           onTap: TasksController().onPressSaveTask,
-          child: Icon(
+          child: const Icon(
             Icons.check,
             size: 30.0,
             color: AppColors.slidingPanelColor,

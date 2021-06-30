@@ -10,7 +10,7 @@ class TasksPanelTask extends StatelessWidget {
   final TaskModel task;
 
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 50.0,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

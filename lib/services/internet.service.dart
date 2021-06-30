@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 
 class InternetService {
   Future<ConnectivityResult> connectType() async {
-    return await Connectivity().checkConnectivity();
+    return Connectivity().checkConnectivity();
   }
 
   Future<bool> isConnected() async {
@@ -12,7 +12,7 @@ class InternetService {
     if (connectionType == ConnectivityResult.none) {
       return false;
     }
-    return await lookUpInternet();
+    return lookUpInternet();
   }
 
   Future<bool> lookUpInternet() async {

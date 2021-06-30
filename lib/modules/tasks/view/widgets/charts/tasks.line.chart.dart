@@ -12,18 +12,18 @@ class TasksLineChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final horizontal = Get.width> Get.height;
+    final horizontal = Get.width > Get.height;
 
     return Container(
-      height: horizontal ? Get.height * 0.5: Get.height * 0.3,
+      height: horizontal ? Get.height * 0.5 : Get.height * 0.3,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(18)),
+        borderRadius: const BorderRadius.all(Radius.circular(18)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.4),
             spreadRadius: 2,
             blurRadius: 4,
-            offset: Offset(0, 3),
+            offset: const Offset(0, 3),
           ),
         ],
         color: AppColors.mainAppDarkColor,
@@ -97,7 +97,7 @@ class TasksLineChart extends StatelessWidget {
       ),
       borderData: FlBorderData(
         show: true,
-        border: Border.all(color: const Color(0xff37434d), width: 1),
+        border: Border.all(color: const Color(0xff37434d)),
       ),
       minX: 0,
       maxX: 12,
@@ -123,7 +123,7 @@ class TasksLineChart extends StatelessWidget {
     final List<FlSpot> list2 = [];
     final tasks = TasksStore.to.tasks;
 
-    if (tasks.length == 0) return [FlSpot(0, 0)];
+    if (tasks.isEmpty) return [FlSpot(0, 0)];
 
     tasks.forEach((task) {
       if (task.completed == 0) {

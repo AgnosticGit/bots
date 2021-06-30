@@ -8,7 +8,7 @@ class TasksList extends StatelessWidget {
       children: [
         Expanded(
           child: ListView.separated(
-            separatorBuilder: (_,___)=> Divider(),
+            separatorBuilder: (_,___)=> const Divider(),
             padding: const EdgeInsets.all(20.0),
             itemCount: TasksStore.to.tasks.length,
             itemBuilder: (_, index) {

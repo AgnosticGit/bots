@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class TasksCollapsed extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: AppColors.slidingPanelColor,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(16.0),
@@ -17,7 +17,7 @@ class TasksCollapsed extends StatelessWidget {
         children: [
           Transform.rotate(
             angle: pi / 2,
-            child: Icon(
+            child: const Icon(
               Icons.arrow_back_ios,
               color: Colors.white,
               size: 30.0,

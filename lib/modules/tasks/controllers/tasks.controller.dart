@@ -2,12 +2,13 @@ import 'package:bots/models/task.model.dart';
 import 'package:bots/services/api.requests.service.dart';
 import 'package:bots/stores/tasks.store.dart';
 import 'package:bots/utils/app.colors.dart';
+import 'package:bots/utils/constants.dart';
 import 'package:bots/utils/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class TasksController {
-  void onReady() async {
+  void onReady() {
     ApiRequestsService.getTaskList();
   }
 
@@ -31,17 +32,17 @@ class TasksController {
   void onPressSaveTask() {
     final newTask = TasksStore.to.newTask;
 
-    if (newTask.title!.length != 0) {
+    if (newTask.title!.isNotEmpty) {
       ApiRequestsService.addTask(newTask);
       TasksStore.to.setNewTaskDefault();
       TasksStore.to.setNewTaskTextControllerEmptyText();
     } else {
       Get.snackbar(
-        'Adding task error',
-        'Task text can not be empty',
+        Constants.addingTaskError,
+        Constants.taskTextCannotBeEmpty,
         colorText: Colors.white,
-        messageText: Text(
-          'Task text can not be empty',
+        messageText: const Text(
+          Constants.taskTextCannotBeEmpty,
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
         ),
         backgroundColor: AppColors.mainAppColor,
@@ -59,7 +60,7 @@ class TasksController {
 
   void onSelectSlidingMenuItem(SlidingPanelMenu item) {
     final selectedTasks = TasksStore.to.selectedTasks;
-    
+
     if (item == SlidingPanelMenu.completed) {
       ApiRequestsService.changeTasksCompletedStatus(selectedTasks, 1);
     }

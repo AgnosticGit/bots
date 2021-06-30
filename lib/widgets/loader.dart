@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class Loader extends StatelessWidget {
   Widget build(BuildContext context) {
     if (GlobalStore.to.isLoading) {
-      return IgnorePointer(
+      return const IgnorePointer(
         child: Scaffold(
           backgroundColor: Colors.transparent,
           body: Align(

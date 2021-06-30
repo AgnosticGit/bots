@@ -12,7 +12,7 @@ class DaysRangePicker extends StatelessWidget {
             color: Colors.black.withOpacity(0.2),
             spreadRadius: 1,
             blurRadius: 6,
-            offset: Offset(0, 3),
+            offset: const Offset(0, 3),
           ),
         ],
         color: Colors.white,
@@ -24,9 +24,8 @@ class DaysRangePicker extends StatelessWidget {
             onSelectionChanged: DaysController().onSelectDate,
             toggleDaySelection: true,
             initialSelectedRange: PickerDateRange(
-                     DateTime(2021, 1, 1),
+              DateTime(2021),
               DateTime.now(),
-       
             ),
           ),
         ],

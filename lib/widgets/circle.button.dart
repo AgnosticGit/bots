@@ -17,7 +17,7 @@ class CircleButton extends StatelessWidget {
               color: Colors.black.withOpacity(0.2),
               spreadRadius: 1,
               blurRadius: 4,
-              offset: Offset(0, 2),
+              offset: const Offset(0, 2),
             ),
           ],
           color: Colors.white,

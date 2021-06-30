@@ -7,7 +7,7 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 class TasksStore extends Store {
   static TasksStore get to => Get.put(TasksStore());
 
-  PageController pageController = PageController(initialPage: 0);
+  PageController pageController = PageController();
   final newTaskTextController = TextEditingController();
 
   int currentPage = 0;
@@ -19,7 +19,7 @@ class TasksStore extends Store {
   DateRangePickerSelectionChangedArgs? selectedDates =
       DateRangePickerSelectionChangedArgs(
     PickerDateRange(
-      DateTime(2021, 1, 1),
+      DateTime(2021),
       DateTime.now(),
     ),
   );
@@ -118,7 +118,7 @@ class TasksStore extends Store {
   void setPageControllerPage(int page) {
     pageController.animateToPage(
       page,
-      duration: Duration(milliseconds: 250),
+      duration: const Duration(milliseconds: 250),
       curve: Curves.linear,
     );
     setCurrentPage(page);
