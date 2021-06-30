@@ -54,7 +54,7 @@ class TasksPanelTask extends StatelessWidget {
       width: 10.0,
       height: 10.0,
       decoration: BoxDecoration(
-        color: task.completed!
+        color: task.completed == 1
             ? AppColors.completedTaskColor
             : AppColors.notCompletedTaskColor,
         borderRadius: BorderRadius.circular(100.0),

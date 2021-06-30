@@ -1,4 +1,4 @@
-import 'package:bots/modules/example/views/days.page.dart';
+import 'package:bots/modules/days/views/days.page.dart';
 import 'package:bots/modules/tasks/view/tasks.page.dart';
 import 'package:bots/utils/app.image.dart';
 import 'package:flutter/cupertino.dart';
@@ -21,7 +21,7 @@ class BottomNavBar extends StatelessWidget {
           inactiveColorPrimary: CupertinoColors.systemGrey,
         ),
         PersistentBottomNavBarItem(
-          icon: Icon(CupertinoIcons.calendar),
+          icon: const Icon(CupertinoIcons.calendar),
           title: ("Days"),
           activeColorPrimary: CupertinoColors.activeBlue,
           inactiveColorPrimary: CupertinoColors.systemGrey,

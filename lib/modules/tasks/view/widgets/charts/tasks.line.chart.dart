@@ -126,10 +126,10 @@ class TasksLineChart extends StatelessWidget {
     if (tasks.length == 0) return [FlSpot(0, 0)];
 
     tasks.forEach((task) {
-      if (task.completed!) {
+      if (task.completed == 0) {
         list.add(FlSpot(
-          task.time!.month.toDouble(),
-          task.completed! ? 1.0 : 0.0,
+          task.createdAt!.month.toDouble(),
+          task.completed == 0 ? 1.0 : 0.0,
         ));
       }
     });

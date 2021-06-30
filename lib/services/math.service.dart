@@ -4,8 +4,8 @@ class MathService {
   static int countTasks(List<TaskModel> list, bool completed) {
     return list.where((task) {
       if (task.completed != null) {
-        if (completed) return task.completed!;
-        return !task.completed!;
+        if (completed) return task.completed == 1;
+        return task.completed == 0;
       }
       return false;
     }).length;

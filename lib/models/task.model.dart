@@ -1,25 +1,25 @@
-import 'package:hive/hive.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'task.model.g.dart';
 
-@HiveType(typeId: 0)
-class TaskModel extends HiveObject {
+@JsonSerializable()
+class TaskModel {
   TaskModel({
     this.id,
     this.title = '',
-    this.completed = false,
-    this.time,
+    this.completed = 0,
+    this.createdAt,
   });
 
-  @HiveField(0)
-  int? id = 0;
-
-  @HiveField(1)
+  int? id;
   String? title;
+  int? completed;
 
-  @HiveField(2)
-  bool? completed;
+  @JsonKey(name: 'created_at')
+  DateTime? createdAt = DateTime.now();
 
-  @HiveField(3)
-  DateTime? time = DateTime.now();
+  factory TaskModel.fromJson(Map<String, dynamic> json) =>
+      _$TaskModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TaskModelToJson(this);
 }

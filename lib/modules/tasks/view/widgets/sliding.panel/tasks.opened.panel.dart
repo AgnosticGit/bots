@@ -159,7 +159,7 @@ class TasksOpenedPanel extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(top: 10.0),
         child: CircleButton(
-          onTap: TasksController().onPressSave,
+          onTap: TasksController().onPressSaveTask,
           child: Icon(
             Icons.check,
             size: 30.0,

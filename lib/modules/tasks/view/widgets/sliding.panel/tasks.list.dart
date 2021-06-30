@@ -12,7 +12,7 @@ class TasksList extends StatelessWidget {
             padding: const EdgeInsets.all(20.0),
             itemCount: TasksStore.to.tasks.length,
             itemBuilder: (_, index) {
-              final task = TasksStore.to.tasks[index];
+              final task = TasksStore.to.tasks.reversed.toList()[index];
               return TasksPanelTask(task: task);
             },
           ),

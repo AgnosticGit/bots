@@ -20,10 +20,6 @@ class TasksPage extends StatelessWidget {
         init: TasksStore(),
         initState: (_) => TasksController().onReady(),
         builder: (_) {
-          if (TasksStore.to.isLoading) {
-            return Center(child: CircularProgressIndicator());
-          }
-
           return SlidingUpPanel(
             onPanelOpened: TasksStore.to.update,
             onPanelClosed: TasksController().onClosePanel,

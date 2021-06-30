@@ -15,8 +15,6 @@ class TasksStore extends Store {
   List<TaskModel> tasks = [];
   TaskModel newTask = TaskModel();
 
-  bool isLoading = false;
-
   List<TaskModel> selectedTasks = [];
   DateRangePickerSelectionChangedArgs? selectedDates =
       DateRangePickerSelectionChangedArgs(
@@ -26,13 +24,26 @@ class TasksStore extends Store {
     ),
   );
 
-  void setIsLoading(bool state){
-    isLoading = state;
+  void setTasks(List<TaskModel> newTasks) {
+    tasks = newTasks;
     update();
   }
 
-  void setTasks(List<TaskModel> newTasks) {
-    tasks = newTasks;
+  void addTask(TaskModel task){
+    tasks.add(task);
+    update();
+  }
+
+  void rewriteTasksByNewTasks(List<TaskModel> newTasks){
+    newTasks.forEach((newTask) { 
+      final findedTask = tasks.firstWhere((task) => task.id == newTask.id);
+      findedTask.completed = newTask.completed;
+    });
+    update();
+  }
+
+  void insertTask(TaskModel task){
+    tasks.insert(0, task);
     update();
   }
 
@@ -66,7 +77,7 @@ class TasksStore extends Store {
     update();
   }
 
-  void setSelectedTasksCompleted(bool value) {
+  void setSelectedTasksCompleted(int value) {
     selectedTasks.forEach((selTask) {
       tasks.firstWhere((task) => task.id == selTask.id).completed = value;
     });
@@ -94,8 +105,8 @@ class TasksStore extends Store {
     update();
   }
 
-  void setNewTaskTime(DateTime time) {
-    newTask.time = time;
+  void setNewTaskTime(DateTime createdAt) {
+    newTask.createdAt = createdAt;
     update();
   }
 

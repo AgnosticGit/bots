@@ -26,7 +26,7 @@ class _DaysBarChartState extends State<DaysBarChart> {
             color: Colors.black.withOpacity(0.4),
             spreadRadius: 2,
             blurRadius: 4,
-            offset: Offset(0, 3),
+            offset: const Offset(0, 3),
           ),
         ],
       ),
@@ -118,7 +118,7 @@ class _DaysBarChartState extends State<DaysBarChart> {
     final filteredTasks = <TaskModel>[];
 
     tasks.forEach((task) {
-      final taskTimestamp = task.time!.millisecondsSinceEpoch;
+      final taskTimestamp = task.createdAt!.millisecondsSinceEpoch;
       final minPeriodTimestamp = period[0].millisecondsSinceEpoch;
       final maxPeriodTimestamp = period[1].millisecondsSinceEpoch;
     
@@ -131,11 +131,11 @@ class _DaysBarChartState extends State<DaysBarChart> {
     final Map<int, List<TaskModel>> filteredByDaysTasks = {};
 
     filteredTasks.forEach((task) {
-      if (filteredByDaysTasks[task.time!.weekday] == null) {
-        filteredByDaysTasks[task.time!.weekday] = <TaskModel>[];
+      if (filteredByDaysTasks[task.createdAt!.weekday] == null) {
+        filteredByDaysTasks[task.createdAt!.weekday] = <TaskModel>[];
       }
-      if (task.completed!) {
-        filteredByDaysTasks[task.time!.weekday]?.add(task);
+      if (task.completed == 1) {
+        filteredByDaysTasks[task.createdAt!.weekday]?.add(task);
       }
     });
 

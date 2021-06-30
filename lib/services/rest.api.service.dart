@@ -1,7 +1,6 @@
-import 'dart:convert';
 import 'package:bots/services/internet.service.dart';
 import 'package:bots/utils/enums.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 
 class RestApiService<S, E> extends InternetService {
   RestApiService({
@@ -9,6 +8,8 @@ class RestApiService<S, E> extends InternetService {
     required this.requestType,
     this.body,
     this.headers,
+    this.executeIfSuccess,
+    this.executeIfError,
     this.successFromJson,
     this.successToStore,
     this.errorsFromJson,
@@ -22,7 +23,10 @@ class RestApiService<S, E> extends InternetService {
   Map<String, dynamic>? body;
   Map<String, String>? headers;
 
-  S Function(dynamic responseBody)? successFromJson;
+  void Function()? executeIfSuccess;
+  void Function()? executeIfError;
+
+  S Function(dynamic json)? successFromJson;
   E Function(dynamic errors)? errorsFromJson;
 
   void Function(S data)? successToStore;
@@ -31,33 +35,37 @@ class RestApiService<S, E> extends InternetService {
   Function(bool)? setIsDisconnected;
   Function(bool)? setIsLoading;
 
-  Future request<S, E>() async {
+  Future<void> request() async {
     if (!await isConnected()) {
       if (setIsDisconnected != null) {
         setIsDisconnected!(true);
       } else {
-        return;
+        return Future.value();
       }
     }
 
     try {
       _loadingStarted();
-      http.Response response = await _httpRequest();
+      final response = await _httpRequest();
       _loadingFinished();
 
-      if (response.statusCode != 200) {
-        throw response.body;
+      if (!_isResponseSuccessfulByCode(response.statusCode!)) {
+        throw response.data;
       }
+
       _successToState(response);
+
+      if (executeIfSuccess != null) executeIfSuccess!();
     } catch (errors) {
       _errorsToState(errors);
       _loadingFinished();
+      if (executeIfError != null) executeIfError!();
     }
   }
 
-  void _successToState(http.Response response) {
+  void _successToState(Response response) {
     if (successToStore != null && successFromJson != null) {
-      final json = jsonDecode(response.body);
+      final json = response.data;
       successToStore!(successFromJson!(json));
     }
   }
@@ -72,21 +80,45 @@ class RestApiService<S, E> extends InternetService {
     if (setIsLoading != null) setIsLoading!(false);
   }
 
-  Future<http.Response> _httpRequest() async {
+  Future<Response> _httpRequest() async {
     if (requestType == RequestType.get) {
-      return await http.get(Uri.parse(url));
-    }
-    if (requestType == RequestType.post) {
-      return await http.post(
-        Uri.parse(url),
-        headers: headers,
-        body: jsonEncode(body),
+      return Dio().get(
+        url,
+        options: Options(headers: headers),
       );
     }
-    if (requestType == RequestType.put) {
-      return await http.put(Uri.parse(url));
+
+    if (requestType == RequestType.post) {
+      return Dio().post(
+        url,
+        options: Options(headers: headers),
+        data: body,
+      );
     }
 
-    return await http.delete(Uri.parse(url));
+    if (requestType == RequestType.put) {
+      return Dio().put(
+        url,
+        options: Options(headers: headers),
+        data: body,
+      );
+    }
+
+    return Dio().delete(
+      url,
+      options: Options(headers: headers),
+      data: body,
+    );
+  }
+
+  bool _isResponseSuccessfulByCode(int code) {
+    switch (code) {
+      case 200:
+        return true;
+      case 201:
+        return true;
+      default:
+        return false;
+    }
   }
 }

@@ -1,5 +1,5 @@
-import 'package:bots/modules/example/views/widgets/days.bar.chart.dart';
-import 'package:bots/modules/example/views/widgets/days.range.picker.dart';
+import 'package:bots/modules/days/views/widgets/days.bar.chart.dart';
+import 'package:bots/modules/days/views/widgets/days.range.picker.dart';
 import 'package:bots/stores/tasks.store.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,10 +10,6 @@ class DaysPage extends StatelessWidget {
       body: GetBuilder<TasksStore>(
         builder: (_) {
           final horizontal = Get.width > Get.height;
-
-          if (TasksStore.to.isLoading) {
-            return Center(child: CircularProgressIndicator());
-          }
 
           return Scaffold(
             body: SingleChildScrollView(
