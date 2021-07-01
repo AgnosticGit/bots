@@ -11,6 +11,7 @@ class ApiRequestsService {
       url: ApiUrl.tasks,
       requestType: RequestType.get,
       headers: {'Accept': 'application/json'},
+      setIsDisconnected: GlobalStore.to.setInternetDisconnected,
       setIsLoading: GlobalStore.to.setIsLoading,
       successFromJson: (json) {
         return json['data']
@@ -26,6 +27,7 @@ class ApiRequestsService {
       url: ApiUrl.tasks,
       requestType: RequestType.post,
       headers: {'Accept': 'application/json'},
+      setIsDisconnected: GlobalStore.to.setInternetDisconnected,
       setIsLoading: GlobalStore.to.setIsLoading,
       body: task.toJson(),
       successFromJson: (json) => TaskModel.fromJson(json['data']),
@@ -43,6 +45,7 @@ class ApiRequestsService {
       url: ApiUrl.changeTasksCompletedStatus + completed.toString(),
       requestType: RequestType.put,
       headers: {'Accept': 'application/json'},
+      setIsDisconnected: GlobalStore.to.setInternetDisconnected,
       setIsLoading: GlobalStore.to.setIsLoading,
       body: {'tasks': tasksIDs},
       successFromJson: (json) {
@@ -62,6 +65,7 @@ class ApiRequestsService {
       requestType: RequestType.delete,
       headers: {'Accept': 'application/json'},
       setIsLoading: GlobalStore.to.setIsLoading,
+      setIsDisconnected: GlobalStore.to.setInternetDisconnected,
       body: {'tasks': tasksIDs},
       executeIfSuccess: TasksStore.to.removeFromTasksSelectedTasks,
     ).request();

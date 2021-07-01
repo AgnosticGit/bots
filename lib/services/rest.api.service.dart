@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:bots/services/internet.service.dart';
 import 'package:bots/utils/enums.dart';
 import 'package:dio/dio.dart';
@@ -16,32 +17,33 @@ class RestApiService<S, E> extends InternetService {
     this.errorsToStore,
     this.setIsDisconnected,
     this.setIsLoading,
+    this.requestAfterReconnect = true,
+    this.reconnectDuration = const Duration(seconds: 1),
   });
 
-  String url;
-  RequestType requestType;
-  Map<String, dynamic>? body;
-  Map<String, String>? headers;
+  final String url;
+  final RequestType requestType;
+  final Map<String, dynamic>? body;
+  final Map<String, String>? headers;
 
-  void Function()? executeIfSuccess;
-  void Function()? executeIfError;
+  final void Function()? executeIfSuccess;
+  final void Function()? executeIfError;
 
-  S Function(dynamic json)? successFromJson;
-  E Function(dynamic errors)? errorsFromJson;
+  final S Function(dynamic json)? successFromJson;
+  final E Function(dynamic errors)? errorsFromJson;
 
-  void Function(S data)? successToStore;
-  void Function(E error)? errorsToStore;
+  final void Function(S data)? successToStore;
+  final void Function(E error)? errorsToStore;
 
-  Function(bool)? setIsDisconnected;
-  Function(bool)? setIsLoading;
+  final Function(bool)? setIsDisconnected;
+  final Function(bool)? setIsLoading;
+
+  final bool requestAfterReconnect;
+  final Duration reconnectDuration;
 
   Future<void> request() async {
-    if (!await isConnected()) {
-      if (setIsDisconnected != null) {
-        setIsDisconnected!(true);
-      } else {
-        return Future.value();
-      }
+    if (await _internetIsDiconnected()) {
+      return Future.value();
     }
 
     try {
@@ -87,7 +89,6 @@ class RestApiService<S, E> extends InternetService {
         options: Options(headers: headers),
       );
     }
-
     if (requestType == RequestType.post) {
       return Dio().post(
         url,
@@ -95,7 +96,6 @@ class RestApiService<S, E> extends InternetService {
         data: body,
       );
     }
-
     if (requestType == RequestType.put) {
       return Dio().put(
         url,
@@ -103,7 +103,6 @@ class RestApiService<S, E> extends InternetService {
         data: body,
       );
     }
-
     return Dio().delete(
       url,
       options: Options(headers: headers),
@@ -120,5 +119,33 @@ class RestApiService<S, E> extends InternetService {
       default:
         return false;
     }
+  }
+
+  Future<bool> _internetIsDiconnected() async {
+    if (await isConnected()) {
+      if (setIsDisconnected != null) {
+        setIsDisconnected!(false);
+      }
+      return false;
+    } else {
+      if (setIsDisconnected != null) {
+        setIsDisconnected!(true);
+        await _requestAfterReconnect();
+      }
+      return true;
+    }
+  }
+
+  Future<void> _requestAfterReconnect() async {
+    await Future.doWhile(() async {
+      bool continueLoop = true;
+      await Future.delayed(reconnectDuration, () async {
+        if (await isConnected()) {
+          continueLoop = false;
+          request();
+        }
+      });
+      return continueLoop;
+    });
   }
 }
