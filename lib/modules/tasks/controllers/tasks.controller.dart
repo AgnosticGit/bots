@@ -1,8 +1,8 @@
 import 'package:bots/models/task.model.dart';
 import 'package:bots/services/api.requests.service.dart';
 import 'package:bots/stores/tasks.store.dart';
-import 'package:bots/utils/app.colors.dart';
-import 'package:bots/utils/constants.dart';
+import 'package:bots/utils/constants/color.constant.dart';
+import 'package:bots/utils/constants/string.constants.dart';
 import 'package:bots/utils/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -32,20 +32,20 @@ class TasksController {
   void onPressSaveTask() {
     final newTask = TasksStore.to.newTask;
 
-    if (newTask.title!.isNotEmpty) {
+    if (newTask.title.isNotEmpty) {
       ApiRequestsService.addTask(newTask);
       TasksStore.to.setNewTaskDefault();
       TasksStore.to.setNewTaskTextControllerEmptyText();
     } else {
       Get.snackbar(
-        Constants.addingTaskError,
-        Constants.taskTextCannotBeEmpty,
+        StringConstant.addingTaskError,
+        StringConstant.taskTextCannotBeEmpty,
         colorText: Colors.white,
         messageText: const Text(
-          Constants.taskTextCannotBeEmpty,
+          StringConstant.taskTextCannotBeEmpty,
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
         ),
-        backgroundColor: AppColors.mainAppColor,
+        backgroundColor: ColorConstant.mainAppColor,
       );
     }
   }

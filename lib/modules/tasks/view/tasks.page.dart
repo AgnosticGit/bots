@@ -5,8 +5,8 @@ import 'package:bots/modules/tasks/view/widgets/charts/tasks.line.chart.dart';
 import 'package:bots/modules/tasks/view/widgets/charts/tasks.pie.chart.dart';
 import 'package:bots/modules/tasks/view/widgets/charts/tasks.piechart.indicator.dart';
 import 'package:bots/stores/tasks.store.dart';
-import 'package:bots/utils/app.colors.dart';
-import 'package:bots/utils/constants.dart';
+import 'package:bots/utils/constants/color.constant.dart';
+import 'package:bots/utils/constants/string.constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -96,24 +96,24 @@ class TasksPage extends StatelessWidget {
               children: const [
                 TasksPiechartIndicator(
                   title: Text(
-                    Constants.completed,
+                    StringConstant.completed,
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 12.0,
                     ),
                   ),
-                  color: AppColors.completedTaskColor,
+                  color: ColorConstant.completedTaskColor,
                 ),
                 SizedBox(height: 5.0),
                 TasksPiechartIndicator(
                   title: Text(
-                    Constants.notCompleted,
+                    StringConstant.notCompleted,
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 12.0,
                     ),
                   ),
-                  color: AppColors.notCompletedTaskColor,
+                  color: ColorConstant.notCompletedTaskColor,
                 ),
               ],
             ),

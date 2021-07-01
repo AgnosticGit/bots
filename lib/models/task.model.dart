@@ -12,8 +12,8 @@ class TaskModel {
   });
 
   int? id;
-  String? title;
-  int? completed;
+  String title;
+  int completed;
 
   @JsonKey(name: 'created_at')
   DateTime? createdAt = DateTime.now();

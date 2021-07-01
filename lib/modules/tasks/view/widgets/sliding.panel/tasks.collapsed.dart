@@ -1,12 +1,12 @@
 import 'dart:math';
-import 'package:bots/utils/app.colors.dart';
+import 'package:bots/utils/constants/color.constant.dart';
 import 'package:flutter/material.dart';
 
 class TasksCollapsed extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        color: AppColors.slidingPanelColor,
+        color: ColorConstant.slidingPanelColor,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(16.0),
           topRight: Radius.circular(16.0),

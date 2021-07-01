@@ -9,8 +9,8 @@ part of 'task.model.dart';
 TaskModel _$TaskModelFromJson(Map<String, dynamic> json) {
   return TaskModel(
     id: json['id'] as int?,
-    title: json['title'] as String?,
-    completed: json['completed'] as int?,
+    title: json['title'] as String,
+    completed: json['completed'] as int,
     createdAt: json['created_at'] == null
         ? null
         : DateTime.parse(json['created_at'] as String),

@@ -1,6 +1,6 @@
 import 'package:bots/models/task.model.dart';
 import 'package:bots/stores/tasks.store.dart';
-import 'package:bots/utils/app.colors.dart';
+import 'package:bots/utils/constants/color.constant.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
@@ -20,7 +20,7 @@ class _DaysBarChartState extends State<DaysBarChart> {
       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(18.0),
-        color: AppColors.mainAppDarkColor,
+        color: ColorConstant.mainAppDarkColor,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.4),

@@ -18,10 +18,7 @@ class TasksStore extends Store {
   List<TaskModel> selectedTasks = [];
   DateRangePickerSelectionChangedArgs? selectedDates =
       DateRangePickerSelectionChangedArgs(
-    PickerDateRange(
-      DateTime(2021),
-      DateTime.now(),
-    ),
+    PickerDateRange(DateTime(2021), DateTime.now()),
   );
 
   void setTasks(List<TaskModel> newTasks) {
@@ -29,20 +26,20 @@ class TasksStore extends Store {
     update();
   }
 
-  void addTask(TaskModel task){
+  void addTask(TaskModel task) {
     tasks.add(task);
     update();
   }
 
-  void rewriteTasksByNewTasks(List<TaskModel> newTasks){
-    newTasks.forEach((newTask) { 
+  void rewriteTasksByNewTasks(List<TaskModel> newTasks) {
+    newTasks.forEach((newTask) {
       final findedTask = tasks.firstWhere((task) => task.id == newTask.id);
       findedTask.completed = newTask.completed;
     });
     update();
   }
 
-  void insertTask(TaskModel task){
+  void insertTask(TaskModel task) {
     tasks.insert(0, task);
     update();
   }

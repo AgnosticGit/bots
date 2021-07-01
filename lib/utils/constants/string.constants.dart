@@ -1,4 +1,4 @@
-class Constants {
+class StringConstant {
   static const tasks = "Tasks";
   static const days = "Days";
   static const addingTaskError = 'Adding task error';

@@ -1,8 +1,8 @@
 import 'package:bots/modules/tasks/controllers/tasks.controller.dart';
 import 'package:bots/stores/tasks.store.dart';
-import 'package:bots/utils/app.colors.dart';
+import 'package:bots/utils/constants/color.constant.dart';
 import 'package:flutter/material.dart';
-import '../../../../../models/task.model.dart';
+import 'package:bots/models/task.model.dart';
 
 class TasksPanelTask extends StatelessWidget {
   const TasksPanelTask({required this.task});
@@ -22,7 +22,7 @@ class TasksPanelTask extends StatelessWidget {
                 const SizedBox(width: 20.0),
                 Flexible(
                   child: Text(
-                    task.title ?? '',
+                    task.title,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                   ),
@@ -31,7 +31,7 @@ class TasksPanelTask extends StatelessWidget {
             ),
           ),
           Checkbox(
-            activeColor: AppColors.mainAppColor,
+            activeColor: ColorConstant.mainAppColor,
             value: _getCheckBoxValue(),
             onChanged: (value) {
               TasksController().onPressCheckbox(value, task);
@@ -55,8 +55,8 @@ class TasksPanelTask extends StatelessWidget {
       height: 10.0,
       decoration: BoxDecoration(
         color: task.completed == 1
-            ? AppColors.completedTaskColor
-            : AppColors.notCompletedTaskColor,
+            ? ColorConstant.completedTaskColor
+            : ColorConstant.notCompletedTaskColor,
         borderRadius: BorderRadius.circular(100.0),
       ),
     );

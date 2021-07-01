@@ -3,8 +3,8 @@ import 'package:bots/modules/tasks/controllers/tasks.controller.dart';
 import 'package:bots/modules/tasks/view/widgets/sliding.panel/tasks.add.task.dart';
 import 'package:bots/modules/tasks/view/widgets/sliding.panel/tasks.list.dart';
 import 'package:bots/stores/tasks.store.dart';
-import 'package:bots/utils/app.colors.dart';
-import 'package:bots/utils/constants.dart';
+import 'package:bots/utils/constants/color.constant.dart';
+import 'package:bots/utils/constants/string.constants.dart';
 import 'package:bots/utils/enums.dart';
 import 'package:bots/widgets/circle.button.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +17,7 @@ class TasksOpenedPanel extends StatelessWidget {
           height: 80.0,
           padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 10.0),
           decoration: const BoxDecoration(
-            color: AppColors.slidingPanelColor,
+            color: ColorConstant.slidingPanelColor,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(16.0),
               topRight: Radius.circular(16.0),
@@ -75,7 +75,7 @@ class TasksOpenedPanel extends StatelessWidget {
                     children: const [
                       Icon(Icons.check),
                       SizedBox(width: 10.0),
-                      Text(Constants.completed),
+                      Text(StringConstant.completed),
                     ],
                   ),
                 ),
@@ -86,7 +86,7 @@ class TasksOpenedPanel extends StatelessWidget {
                     children: const [
                       Icon(Icons.close),
                       SizedBox(width: 10.0),
-                      Text(Constants.uncompleted),
+                      Text(StringConstant.uncompleted),
                     ],
                   ),
                 ),
@@ -97,7 +97,7 @@ class TasksOpenedPanel extends StatelessWidget {
                     children: const [
                       Icon(Icons.delete),
                       SizedBox(width: 10.0),
-                      Text(Constants.remove),
+                      Text(StringConstant.remove),
                     ],
                   ),
                 ),
@@ -107,7 +107,7 @@ class TasksOpenedPanel extends StatelessWidget {
               child: Icon(
                 Icons.menu,
                 size: 30.0,
-                color: AppColors.slidingPanelColor,
+                color: ColorConstant.slidingPanelColor,
               ),
             ),
           ),
@@ -123,7 +123,7 @@ class TasksOpenedPanel extends StatelessWidget {
           onTap: TasksController().onPressBackSlidingPanel,
           child: const Icon(
             Icons.arrow_back_rounded,
-            color: AppColors.slidingPanelColor,
+            color: ColorConstant.slidingPanelColor,
             size: 30.0,
           ),
         ),
@@ -144,7 +144,7 @@ class TasksOpenedPanel extends StatelessWidget {
             child: const Icon(
               Icons.add,
               size: 30.0,
-              color: AppColors.slidingPanelColor,
+              color: ColorConstant.slidingPanelColor,
             ),
           ),
         ),
@@ -160,7 +160,7 @@ class TasksOpenedPanel extends StatelessWidget {
           child: const Icon(
             Icons.check,
             size: 30.0,
-            color: AppColors.slidingPanelColor,
+            color: ColorConstant.slidingPanelColor,
           ),
         ),
       ),

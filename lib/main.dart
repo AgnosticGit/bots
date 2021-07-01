@@ -1,6 +1,6 @@
 import 'package:bots/modules/bottom.nav.bar/views/bottom.nav.bar.dart';
 import 'package:bots/stores/global.store.dart';
-import 'package:bots/utils/app.colors.dart';
+import 'package:bots/utils/constants/color.constant.dart';
 import 'package:bots/widgets/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,7 +13,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(accentColor: AppColors.mainAppColor),
+      theme: ThemeData(accentColor: ColorConstant.mainAppColor),
       home: GetBuilder<GlobalStore>(
         init: GlobalStore(),
         builder: (_) {

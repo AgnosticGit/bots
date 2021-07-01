@@ -1,5 +1,5 @@
 import 'package:bots/stores/tasks.store.dart';
-import 'package:bots/utils/app.colors.dart';
+import 'package:bots/utils/constants/color.constant.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -26,7 +26,7 @@ class TasksLineChart extends StatelessWidget {
             offset: const Offset(0, 3),
           ),
         ],
-        color: AppColors.mainAppDarkColor,
+        color: ColorConstant.mainAppDarkColor,
       ),
       child: Padding(
         padding: const EdgeInsets.only(
